@@ -53,7 +53,7 @@ def getStatus(self):
     global sensorState
     global ledGreen
     global ledRed
-    request = urequests.get("https://api.thingspeak.com/channels/1715955/fields/1.json?api_key=1Y1Y8Z9P2JVT736N&results=2").text
+    request = urequests.get("THINGSPEAKKEY").text
     texts = request[-25 : ]
     if texts.find("deactivate") < 0:
         sensorState = 1
@@ -75,7 +75,7 @@ def getMeasurements(self):
         
         if abs(myValues['AcX']) >= SENSITIVITY or abs(myValues['AcY']) >= SENSITIVITY or abs(abs(myValues['AcZ']) - mpu6050.STANDARD_GRAVITY) >= SENSITIVITY:
             readings = {'value1': 'AccelX ' + str(myValues['AcX']), 'value2': 'AccelY ' + str(myValues['AcY']), 'value3': 'AccelZ '+ str(myValues['AcZ'])}
-            request = urequests.post("https://maker.ifttt.com/trigger/Motion_Detected/with/key/wsTFwzA3o_bk2VYfFrOFs", json = readings)
+            request = urequests.post("IFTTTURL", json = readings)
             request.close()
             ledRed.on()
         else:
